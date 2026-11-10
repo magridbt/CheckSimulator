@@ -25,9 +25,20 @@ TETO = REG / "teto.json"
 PORTA = int(os.environ.get("MEDIDOR_PORTA", "5099"))
 
 # Preço padrão em US$ por 1 milhão de tokens (conferir na OpenAI antes de cada orçamento)
+# Fonte: developers.openai.com/api/docs/pricing (Standard, contexto curto), conferido em 10/11/2026
 PRECOS_PADRAO = {
     "gpt-4o-mini": {"entrada": 0.15, "entrada_cache": 0.075, "saida": 0.60},
+    "gpt-5-nano": {"entrada": 0.05, "entrada_cache": 0.005, "saida": 0.40},
+    "gpt-5-mini": {"entrada": 0.25, "entrada_cache": 0.025, "saida": 2.00},
+    "gpt-6-luna": {"entrada": 0.10, "entrada_cache": 0.01, "saida": 0.50},
+    "gpt-6.1-terra": {"entrada": 1.00, "entrada_cache": 0.05, "saida": 5.00},
+    "gpt-6.1-sol": {"entrada": 2.00, "entrada_cache": 0.10, "saida": 10.00},
+    "gpt-6-sol": {"entrada": 2.00, "entrada_cache": 0.20, "saida": 10.00},
+    "gpt-6-astra": {"entrada": 10.00, "entrada_cache": 1.00, "saida": 50.00},
 }
+
+# Modelos de raciocínio (GPT-5/6, o-series) recusam temperature e max_tokens
+RACIOCINIO = ("gpt-5", "gpt-6", "o1", "o3", "o4")
 
 _lock = threading.Lock()
 
@@ -62,10 +73,10 @@ def total_gasto(desde=None):
 
 
 def custo(modelo, uso, precos):
-    p = None
+    p, maior = None, 0
     for nome, valores in precos.items():
-        if modelo and modelo.startswith(nome):
-            p = valores
+        if modelo and modelo.startswith(nome) and len(nome) > maior:
+            p, maior = valores, len(nome)
     if p is None:
         return None
     entrada = uso.get("prompt_tokens", 0) or 0
@@ -117,6 +128,13 @@ class Medidor(BaseHTTPRequestHandler):
             try:
                 req = json.loads(corpo)
                 modelo, stream = req.get("model"), bool(req.get("stream"))
+                if modelo and modelo.startswith(RACIOCINIO):
+                    if req.get("temperature") not in (None, 1):
+                        req.pop("temperature")
+                    req.pop("top_p", None)
+                    if "max_tokens" in req:
+                        req["max_completion_tokens"] = req.pop("max_tokens")
+                    corpo = json.dumps(req).encode()
                 if stream:
                     req.setdefault("stream_options", {})["include_usage"] = True
                     corpo = json.dumps(req).encode()
