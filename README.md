@@ -1,228 +1,203 @@
-# CheckSimulator
+<div align="center">
 
-**Motor de Inteligencia de Enxame — Simule o Futuro**
+<img src="./static/image/MiroFish_logo_compressed.jpeg" alt="MiroFish Logo" width="75%"/>
 
-Plataforma de previsao baseada em simulacao multi-agente. Cria mundos digitais paralelos povoados por milhares de agentes autonomos, cada um com personalidade, memoria e logica comportamental propria, para prever tendencias, testar hipoteses e simular dinamicas sociais.
+<a href="https://trendshift.io/repositories/16144" target="_blank"><img src="https://trendshift.io/api/badge/repositories/16144" alt="666ghj%2FMiroFish | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-> Baseado no projeto [MiroFish](https://github.com/666ghj/MiroFish) (AGPL-3.0)
+简洁通用的群体智能引擎，预测万物
+</br>
+<em>A Simple and Universal Swarm Intelligence Engine, Predicting Anything</em>
 
----
+<a href="https://www.shanda.com/" target="_blank"><img src="./static/image/shanda_logo.png" alt="666ghj%2FMiroFish | Shanda" height="40"/></a>
 
-## Como funciona
+[![GitHub Stars](https://img.shields.io/github/stars/666ghj/MiroFish?style=flat-square&color=DAA520)](https://github.com/666ghj/MiroFish/stargazers)
+[![GitHub Watchers](https://img.shields.io/github/watchers/666ghj/MiroFish?style=flat-square)](https://github.com/666ghj/MiroFish/watchers)
+[![GitHub Forks](https://img.shields.io/github/forks/666ghj/MiroFish?style=flat-square)](https://github.com/666ghj/MiroFish/network)
+[![Docker](https://img.shields.io/badge/Docker-Build-2496ED?style=flat-square&logo=docker&logoColor=white)](https://hub.docker.com/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/666ghj/MiroFish)
 
-1. **Voce alimenta** com dados reais (noticias, relatorios, narrativas, PDFs, TXTs, MDs)
-2. **O sistema constroi** um grafo de conhecimento (GraphRAG) e gera perfis de agentes
-3. **Milhares de agentes** interagem autonomamente em plataformas simuladas (Twitter + Reddit)
-4. **Comportamentos emergentes** surgem das interacoes coletivas
-5. **Voce recebe** um relatorio detalhado e pode conversar com qualquer agente
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](http://discord.gg/ePf5aPaHnA)
+[![X](https://img.shields.io/badge/X-Follow-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/mirofish_ai)
+[![Instagram](https://img.shields.io/badge/Instagram-Follow-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://www.instagram.com/mirofish_ai/)
 
----
+[English](./README.md) | [中文文档](./README-ZH.md)
 
-## Fluxo de Trabalho (5 Passos)
+</div>
 
-| Passo | Nome | Descricao |
-|-------|------|-----------|
-| 1 | **Construcao do Grafo** | Upload de documentos → LLM gera ontologia → Zep constroi GraphRAG com entidades e relacoes |
-| 2 | **Configuracao do Ambiente** | Leitura de entidades do grafo → Geracao de perfis de agentes → Config de simulacao (tempo, frequencia, eventos) |
-| 3 | **Simulacao** | Execucao paralela em duas plataformas (Twitter + Reddit) com agentes autonomos interagindo |
-| 4 | **Geracao de Relatorio** | Report Agent usa padrao ReACT (pensamento + ferramentas Zep) para gerar analise detalhada |
-| 5 | **Interacao Profunda** | Conversar diretamente com agentes simulados ou com o Report Agent |
+## ⚡ Overview
 
----
+**MiroFish** is a next-generation AI prediction engine powered by multi-agent technology. By extracting seed information from the real world (such as breaking news, policy drafts, or financial signals), it automatically constructs a high-fidelity parallel digital world. Within this space, thousands of intelligent agents with independent personalities, long-term memory, and behavioral logic freely interact and undergo social evolution. You can inject variables dynamically from a "God's-eye view" to precisely deduce future trajectories — **rehearse the future in a digital sandbox, and win decisions after countless simulations**.
 
-## Stack Tecnica
+> You only need to: Upload seed materials (data analysis reports or interesting novel stories) and describe your prediction requirements in natural language</br>
+> MiroFish will return: A detailed prediction report and a deeply interactive high-fidelity digital world
 
-| Camada | Tecnologia |
-|--------|------------|
-| **Frontend** | Vue 3 + Vite |
-| **Backend** | Python 3.12 + Flask |
-| **LLM** | OpenAI API (gpt-4o-mini) via OpenAI SDK |
-| **Memoria** | Zep Cloud (memoria persistente dos agentes + GraphRAG) |
-| **Simulacao** | OASIS by CAMEL-AI (dual platform: Twitter + Reddit) |
-| **Processamento** | PyMuPDF (PDF), charset-normalizer (encoding), tiktoken (tokenizacao) |
+### Our Vision
 
----
+MiroFish is dedicated to creating a swarm intelligence mirror that maps reality. By capturing the collective emergence triggered by individual interactions, we break through the limitations of traditional prediction:
 
-## Inicio Rapido
+- **At the Macro Level**: We are a rehearsal laboratory for decision-makers, allowing policies and public relations to be tested at zero risk
+- **At the Micro Level**: We are a creative sandbox for individual users — whether deducing novel endings or exploring imaginative scenarios, everything can be fun, playful, and accessible
 
-### Pre-requisitos
+From serious predictions to playful simulations, we let every "what if" see its outcome, making it possible to predict anything.
 
-| Ferramenta | Versao | Verificar |
-|-----------|--------|-----------|
-| Node.js | >= 18 | `node -v` |
-| Python | 3.11 ou 3.12 | `python --version` |
-| uv | ultima | `uv --version` |
-| Rust | ultima | `rustc --version` |
+## 🌐 Live Demo
 
-### 1. Clonar e configurar
+Welcome to visit our online demo environment and experience a prediction simulation on trending public opinion events we've prepared for you: [mirofish-live-demo](https://666ghj.github.io/mirofish-demo/)
+
+## 📸 Screenshots
+
+<div align="center">
+<table>
+<tr>
+<td><img src="./static/image/Screenshot/运行截图1.png" alt="Screenshot 1" width="100%"/></td>
+<td><img src="./static/image/Screenshot/运行截图2.png" alt="Screenshot 2" width="100%"/></td>
+</tr>
+<tr>
+<td><img src="./static/image/Screenshot/运行截图3.png" alt="Screenshot 3" width="100%"/></td>
+<td><img src="./static/image/Screenshot/运行截图4.png" alt="Screenshot 4" width="100%"/></td>
+</tr>
+<tr>
+<td><img src="./static/image/Screenshot/运行截图5.png" alt="Screenshot 5" width="100%"/></td>
+<td><img src="./static/image/Screenshot/运行截图6.png" alt="Screenshot 6" width="100%"/></td>
+</tr>
+</table>
+</div>
+
+## 🎬 Demo Videos
+
+### 1. Wuhan University Public Opinion Simulation + MiroFish Project Introduction
+
+<div align="center">
+<a href="https://www.bilibili.com/video/BV1VYBsBHEMY/" target="_blank"><img src="./static/image/武大模拟演示封面.png" alt="MiroFish Demo Video" width="75%"/></a>
+
+Click the image to watch the complete demo video for prediction using BettaFish-generated "Wuhan University Public Opinion Report"
+</div>
+
+### 2. Dream of the Red Chamber Lost Ending Simulation
+
+<div align="center">
+<a href="https://www.bilibili.com/video/BV1cPk3BBExq" target="_blank"><img src="./static/image/红楼梦模拟推演封面.jpg" alt="MiroFish Demo Video" width="75%"/></a>
+
+Click the image to watch MiroFish's deep prediction of the lost ending based on hundreds of thousands of words from the first 80 chapters of "Dream of the Red Chamber"
+</div>
+
+> **Financial Prediction**, **Political News Prediction** and more examples coming soon...
+
+## 🔄 Workflow
+
+1. **Graph Building**: Seed extraction & Individual/collective memory injection & GraphRAG construction
+2. **Environment Setup**: Entity relationship extraction & Persona generation & Agent configuration injection
+3. **Simulation**: Dual-platform parallel simulation & Auto-parse prediction requirements & Dynamic temporal memory updates
+4. **Report Generation**: ReportAgent with rich toolset for deep interaction with post-simulation environment
+5. **Deep Interaction**: Chat with any agent in the simulated world & Interact with ReportAgent
+
+## 🚀 Quick Start
+
+### Option 1: Source Code Deployment (Recommended)
+
+#### Prerequisites
+
+| Tool | Version | Description | Check Installation |
+|------|---------|-------------|-------------------|
+| **Node.js** | 18+ | Frontend runtime, includes npm | `node -v` |
+| **Python** | ≥3.11, ≤3.12 | Backend runtime | `python --version` |
+| **uv** | Latest | Python package manager | `uv --version` |
+
+#### 1. Configure Environment Variables
 
 ```bash
-git clone https://github.com/magridbt/CheckSimulator.git
-cd CheckSimulator
+# Copy the example configuration file
 cp .env.example .env
+
+# Edit the .env file and fill in the required API keys
 ```
 
-### 2. Editar `.env`
+**Required Environment Variables:**
 
 ```env
-# LLM (OpenAI ou qualquer API compativel com OpenAI SDK)
-LLM_API_KEY=sk-sua-chave-aqui
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL_NAME=gpt-4o-mini
+# LLM API Configuration (supports any LLM API with OpenAI SDK format)
+# Recommended: Alibaba Qwen-plus model via Bailian Platform: https://bailian.console.aliyun.com/
+# High consumption, try simulations with fewer than 40 rounds first
+LLM_API_KEY=your_api_key
+LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+LLM_MODEL_NAME=qwen-plus
 
-# Zep Cloud (memoria dos agentes)
-# Criar conta gratis em: https://app.getzep.com/
-ZEP_API_KEY=z_sua-chave-aqui
+# Zep Cloud Configuration
+# Free monthly quota is sufficient for simple usage: https://app.getzep.com/
+ZEP_API_KEY=your_zep_api_key
 ```
 
-### 3. Instalar dependencias
+#### 2. Install Dependencies
 
 ```bash
+# One-click installation of all dependencies (root + frontend + backend)
 npm run setup:all
 ```
 
-### 4. Rodar
+Or install step by step:
 
 ```bash
+# Install Node dependencies (root + frontend)
+npm run setup
+
+# Install Python dependencies (backend, auto-creates virtual environment)
+npm run setup:backend
+```
+
+#### 3. Start Services
+
+```bash
+# Start both frontend and backend (run from project root)
 npm run dev
 ```
 
-| Servico | URL |
-|---------|-----|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:5001 |
+**Service URLs:**
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:5001`
 
-### Docker (alternativa)
+**Start Individually:**
 
 ```bash
+npm run backend   # Start backend only
+npm run frontend  # Start frontend only
+```
+
+### Option 2: Docker Deployment
+
+```bash
+# 1. Configure environment variables (same as source deployment)
 cp .env.example .env
-# Editar .env com suas chaves
+
+# 2. Pull image and start
 docker compose up -d
 ```
 
----
+Reads `.env` from root directory by default, maps ports `3000 (frontend) / 5001 (backend)`
 
-## Comandos Disponiveis
+> Mirror address for faster pulling is provided as comments in `docker-compose.yml`, replace if needed.
 
-| Comando | Descricao |
-|---------|-----------|
-| `npm run setup:all` | Instala todas as dependencias (Node + Python) |
-| `npm run setup` | Instala apenas dependencias Node (root + frontend) |
-| `npm run setup:backend` | Instala apenas dependencias Python (backend) |
-| `npm run dev` | Inicia frontend + backend simultaneamente |
-| `npm run frontend` | Inicia apenas o frontend |
-| `npm run backend` | Inicia apenas o backend |
-| `npm run build` | Build do frontend para producao |
+## 📬 Join the Conversation
 
----
+<div align="center">
+<img src="./static/image/QQ群.png" alt="QQ Group" width="60%"/>
+</div>
 
-## Estrutura do Projeto
+&nbsp;
 
-```
-CheckSimulator/
-├── frontend/                    # Vue 3 + Vite (porta :3000)
-│   ├── index.html               # Entry HTML (lang pt-BR)
-│   └── src/
-│       ├── views/               # Paginas principais
-│       │   ├── Home.vue         # Tela inicial (upload + prompt)
-│       │   ├── Process.vue      # Orquestrador dos 5 passos
-│       │   ├── SimulationView.vue
-│       │   ├── SimulationRunView.vue
-│       │   ├── ReportView.vue
-│       │   └── InteractionView.vue
-│       ├── components/          # Componentes reutilizaveis
-│       │   ├── Step1GraphBuild.vue    # Passo 1: Ontologia + GraphRAG
-│       │   ├── Step2EnvSetup.vue      # Passo 2: Perfis + Config
-│       │   ├── Step3Simulation.vue    # Passo 3: Simulacao
-│       │   ├── Step4Report.vue        # Passo 4: Relatorio
-│       │   ├── Step5Interaction.vue   # Passo 5: Interacao
-│       │   ├── GraphPanel.vue         # Visualizacao do grafo
-│       │   └── HistoryDatabase.vue    # Historico de simulacoes
-│       ├── api/                 # Chamadas API (axios)
-│       │   ├── graph.js         # Endpoints de grafo
-│       │   ├── simulation.js    # Endpoints de simulacao
-│       │   └── report.js        # Endpoints de relatorio
-│       └── store/               # Estado reativo
-│           └── pendingUpload.js
-│
-├── backend/                     # Python 3.12 + Flask (porta :5001)
-│   ├── run.py                   # Entry point
-│   └── app/
-│       ├── __init__.py          # Flask app factory
-│       ├── config.py            # Configuracao (env vars)
-│       ├── api/                 # Rotas da API
-│       │   ├── graph.py         # /api/graph/* (ontologia, construcao, dados)
-│       │   ├── simulation.py    # /api/simulation/* (criar, preparar, rodar, status)
-│       │   └── report.py        # /api/report/* (gerar, status, chat)
-│       ├── services/            # Logica de negocio
-│       │   ├── ontology_generator.py       # LLM gera ontologia dos documentos
-│       │   ├── graph_builder.py            # Constroi grafo Zep (GraphRAG)
-│       │   ├── text_processor.py           # Extrai texto de PDF/MD/TXT
-│       │   ├── zep_entity_reader.py        # Le entidades do grafo Zep
-│       │   ├── oasis_profile_generator.py  # Gera perfis de agentes OASIS
-│       │   ├── simulation_config_generator.py # LLM gera config de simulacao
-│       │   ├── simulation_manager.py       # Ciclo de vida da simulacao
-│       │   ├── simulation_runner.py        # Executa simulacao OASIS
-│       │   ├── simulation_ipc.py           # Comunicacao inter-processos
-│       │   ├── zep_graph_memory_updater.py # Atualiza memoria durante simulacao
-│       │   ├── zep_tools.py                # Ferramentas Zep p/ Report Agent
-│       │   └── report_agent.py             # Gera relatorio (padrao ReACT)
-│       ├── models/              # Modelos de dados
-│       │   ├── project.py       # Projeto (upload, status, metadata)
-│       │   └── task.py          # Tarefas assincronas (progresso, resultado)
-│       └── utils/               # Utilitarios
-│           ├── logger.py        # Logging unificado (console + arquivo)
-│           ├── llm_client.py    # Cliente OpenAI SDK
-│           ├── file_parser.py   # Parser de PDF/MD/TXT
-│           ├── retry.py         # Retry com backoff exponencial
-│           └── zep_paging.py    # Paginacao para API Zep
-│
-├── docs/                        # Documentacao detalhada
-│   ├── architecture.md          # Arquitetura do sistema
-│   ├── api-reference.md         # Referencia da API REST
-│   ├── workflow.md              # Fluxo detalhado dos 5 passos
-│   └── configuration.md         # Configuracao e variaveis de ambiente
-│
-├── .env.example                 # Template de variaveis de ambiente
-├── docker-compose.yml           # Deploy com Docker
-├── package.json                 # Scripts npm (root)
-├── CLAUDE.md                    # Documentacao para Claude Code
-└── README.md                    # Este arquivo
-```
+The MiroFish team is recruiting full-time/internship positions. If you're interested in multi-agent simulation and LLM applications, feel free to send your resume to: **mirofish@shanda.com**
 
----
+## 📄 Acknowledgments
 
-## Variaveis de Ambiente
+**MiroFish has received strategic support and incubation from Shanda Group!**
 
-| Variavel | Obrigatoria | Descricao |
-|----------|-------------|-----------|
-| `LLM_API_KEY` | Sim | Chave da API do LLM (OpenAI, Qwen, etc.) |
-| `LLM_BASE_URL` | Sim | URL base da API (`https://api.openai.com/v1`) |
-| `LLM_MODEL_NAME` | Sim | Modelo a usar (`gpt-4o-mini`) |
-| `ZEP_API_KEY` | Sim | Chave do Zep Cloud |
-| `LLM_BOOST_API_KEY` | Nao | LLM secundario para acelerar geracao |
-| `LLM_BOOST_BASE_URL` | Nao | URL do LLM secundario |
-| `LLM_BOOST_MODEL_NAME` | Nao | Modelo do LLM secundario |
+MiroFish's simulation engine is powered by **[OASIS (Open Agent Social Interaction Simulations)](https://github.com/camel-ai/oasis)**, We sincerely thank the CAMEL-AI team for their open-source contributions!
 
----
+## 📈 Project Statistics
 
-## Casos de Uso
-
-- **Previsao de tendencias** — Alimentar com dados de mercado e simular comportamento do consumidor
-- **Teste de politicas** — Simular reacao publica a novas politicas antes de implementar
-- **Analise de opiniao** — Prever como diferentes grupos reagem a eventos ou controversias
-- **Cenarios financeiros** — Simular impacto de decisoes economicas no comportamento de investidores
-- **Narrativas criativas** — Testar desfechos alternativos de historias ou cenarios ficticios
-- **Marketing e lancamentos** — Simular recepcao de produtos antes de lancar
-
----
-
-## Creditos
-
-- Baseado em [MiroFish](https://github.com/666ghj/MiroFish) por 666ghj (suporte estrategico da Shanda Group)
-- Motor de simulacao: [OASIS](https://github.com/camel-ai/oasis) por CAMEL-AI
-- Memoria e grafos: [Zep](https://www.getzep.com/)
-
-## Licenca
-
-AGPL-3.0 (herdada do MiroFish)
+<a href="https://github.com/666ghj/MiroFish">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="static/image/star-history-dark.svg" />
+   <source media="(prefers-color-scheme: light)" srcset="static/image/star-history-light.svg" />
+   <img alt="666ghj/MiroFish Star History Chart" src="static/image/star-history-light.svg" />
+ </picture>
+</a>

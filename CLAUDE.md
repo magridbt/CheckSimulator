@@ -119,3 +119,11 @@ LLM_BOOST_MODEL_NAME=
 - O backend usa Flask com threads para tarefas longas (construcao de grafo, simulacao)
 - Simulacoes podem consumir muitos tokens — monitorar uso da API
 - Zep Cloud tem free tier suficiente para testes
+
+## Atualizacao de 10/11/2026 (sincronizado com o MiroFish original)
+
+- Codigo trazido do original `666ghj/MiroFish` (103 atualizacoes ate 02/10/2026): correcoes de seguranca, Zep Cloud modernizado, compatibilidade GPT-5, falhas de simulacao tratadas.
+- A traducao de marco (texto em portugues escrito direto no codigo) foi substituida pelo sistema de idiomas do original: textos em `locales/*.json`. Portugues = `locales/pt.json`, idioma padrao no frontend (`frontend/src/i18n/index.js`) e no backend (`backend/app/utils/locale.py`). O seletor de idioma permite trocar.
+- Marca visivel trocada para CheckSimulator (titulo, cabecalho, textos). Identificadores internos `mirofish_*` (grafos, logs, metadados Zep) foram mantidos de proposito para compatibilidade.
+- Versao de marco preservada no branch `versao-marco-2026`.
+- Para atualizar de novo: `git fetch upstream && git merge upstream/main`, conferindo `locales/pt.json` contra novas chaves de `locales/en.json`.

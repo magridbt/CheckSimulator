@@ -6,25 +6,25 @@
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">01</span>
-            <span class="step-title">Geração de Ontologia</span>
+            <span class="step-title">{{ $t('step1.ontologyGeneration') }}</span>
           </div>
           <div class="step-status">
-            <span v-if="currentPhase > 0" class="badge success">Concluído</span>
-            <span v-else-if="currentPhase === 0" class="badge processing">Gerando</span>
-            <span v-else class="badge pending">Aguardando</span>
+            <span v-if="currentPhase > 0" class="badge success">{{ $t('step1.ontologyCompleted') }}</span>
+            <span v-else-if="currentPhase === 0" class="badge processing">{{ $t('step1.ontologyGenerating') }}</span>
+            <span v-else class="badge pending">{{ $t('step1.ontologyPending') }}</span>
           </div>
         </div>
         
         <div class="card-content">
           <p class="api-note">POST /api/graph/ontology/generate</p>
           <p class="description">
-            O LLM analisa o conteúdo do documento e os requisitos da simulação, extrai sementes reais e gera automaticamente a estrutura de ontologia adequada
+            {{ $t('step1.ontologyDesc') }}
           </p>
 
           <!-- Loading / Progress -->
           <div v-if="currentPhase === 0 && ontologyProgress" class="progress-section">
             <div class="spinner-sm"></div>
-            <span>{{ ontologyProgress.message || 'Analisando documentos...' }}</span>
+            <span>{{ ontologyProgress.message || $t('step1.analyzingDocs') }}</span>
           </div>
 
           <!-- Detail Overlay -->
@@ -110,34 +110,34 @@
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">02</span>
-            <span class="step-title">Construção GraphRAG</span>
+            <span class="step-title">{{ $t('step1.graphRagBuild') }}</span>
           </div>
           <div class="step-status">
-            <span v-if="currentPhase > 1" class="badge success">Concluído</span>
+            <span v-if="currentPhase > 1" class="badge success">{{ $t('step1.ontologyCompleted') }}</span>
             <span v-else-if="currentPhase === 1" class="badge processing">{{ buildProgress?.progress || 0 }}%</span>
-            <span v-else class="badge pending">Aguardando</span>
+            <span v-else class="badge pending">{{ $t('step1.ontologyPending') }}</span>
           </div>
         </div>
 
         <div class="card-content">
           <p class="api-note">POST /api/graph/build</p>
           <p class="description">
-            Com base na ontologia gerada, os documentos são automaticamente segmentados e o Zep é utilizado para construir o grafo de conhecimento, extraindo entidades e relações, formando memória temporal e resumos de comunidades
+            {{ $t('step1.graphRagDesc') }}
           </p>
           
           <!-- Stats Cards -->
           <div class="stats-grid">
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.nodes }}</span>
-              <span class="stat-label">Nós de Entidade</span>
+              <span class="stat-label">{{ $t('step1.entityNodes') }}</span>
             </div>
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.edges }}</span>
-              <span class="stat-label">Arestas de Relação</span>
+              <span class="stat-label">{{ $t('step1.relationEdges') }}</span>
             </div>
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.types }}</span>
-              <span class="stat-label">Tipos de SCHEMA</span>
+              <span class="stat-label">{{ $t('step1.schemaTypes') }}</span>
             </div>
           </div>
         </div>
@@ -148,23 +148,23 @@
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">03</span>
-            <span class="step-title">Construção Concluída</span>
+            <span class="step-title">{{ $t('step1.buildComplete') }}</span>
           </div>
           <div class="step-status">
-            <span v-if="currentPhase >= 2" class="badge accent">Em andamento</span>
+            <span v-if="currentPhase >= 2" class="badge accent">{{ $t('step1.inProgress') }}</span>
           </div>
         </div>
         
         <div class="card-content">
           <p class="api-note">POST /api/simulation/create</p>
-          <p class="description">A construção do grafo foi concluída. Prossiga para a próxima etapa para configurar o ambiente de simulação</p>
+          <p class="description">{{ $t('step1.buildCompleteDesc') }}</p>
           <button 
             class="action-btn" 
             :disabled="currentPhase < 2 || creatingSimulation"
             @click="handleEnterEnvSetup"
           >
             <span v-if="creatingSimulation" class="spinner-sm"></span>
-            {{ creatingSimulation ? 'Criando...' : 'Iniciar Configuração do Ambiente ➝' }}
+            {{ creatingSimulation ? $t('step1.creating') : $t('step1.enterEnvSetup') + ' ➝' }}
           </button>
         </div>
       </div>
@@ -189,9 +189,11 @@
 <script setup>
 import { computed, ref, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { createSimulation } from '../api/simulation'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const props = defineProps({
   currentPhase: { type: Number, default: 0 },
@@ -208,10 +210,10 @@ const selectedOntologyItem = ref(null)
 const logContent = ref(null)
 const creatingSimulation = ref(false)
 
-// Entrar na configuração do ambiente - criar simulation e redirecionar
+// 进入环境搭建 - 创建 simulation 并跳转
 const handleEnterEnvSetup = async () => {
   if (!props.projectData?.project_id || !props.projectData?.graph_id) {
-    console.error('Faltam informações do projeto ou do grafo')
+    console.error('缺少项目或图谱信息')
     return
   }
   
@@ -226,18 +228,18 @@ const handleEnterEnvSetup = async () => {
     })
     
     if (res.success && res.data?.simulation_id) {
-      // Redirecionar para a página de simulação
+      // 跳转到 simulation 页面
       router.push({
         name: 'Simulation',
         params: { simulationId: res.data.simulation_id }
       })
     } else {
-      console.error('Falha ao criar simulação:', res.error)
-      alert('Falha ao criar simulação: ' + (res.error || 'Erro desconhecido'))
+      console.error('创建模拟失败:', res.error)
+      alert(t('step1.createSimulationFailed', { error: res.error || t('common.unknownError') }))
     }
   } catch (err) {
-    console.error('Exceção ao criar simulação:', err)
-    alert('Exceção ao criar simulação: ' + err.message)
+    console.error('创建模拟异常:', err)
+    alert(t('step1.createSimulationException', { error: err.message }))
   } finally {
     creatingSimulation.value = false
   }

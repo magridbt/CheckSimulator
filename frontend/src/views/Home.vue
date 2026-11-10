@@ -1,134 +1,139 @@
 <template>
   <div class="home-container">
-    <!-- Barra de navegacao superior -->
+    <!-- 顶部导航栏 -->
     <nav class="navbar">
       <div class="nav-brand">CHECKSIMULATOR</div>
       <div class="nav-links">
+        <LanguageSwitcher />
         <a href="https://github.com/666ghj/MiroFish" target="_blank" class="github-link">
-          Visite nosso Github <span class="arrow">↗</span>
+          {{ $t('nav.visitGithub') }} <span class="arrow">↗</span>
         </a>
       </div>
     </nav>
 
     <div class="main-content">
-      <!-- Parte superior: Area Hero -->
+      <!-- 上半部分：Hero 区域 -->
       <section class="hero-section">
         <div class="hero-left">
           <div class="tag-row">
-            <span class="orange-tag">Motor de Inteligência de Enxame — Simule o Futuro</span>
-            <span class="version-text">/ v0.1-preview</span>
+            <span class="orange-tag">{{ $t('home.tagline') }}</span>
+            <span class="version-text">{{ $t('home.version') }}</span>
           </div>
-
+          
           <h1 class="main-title">
-            Envie qualquer relatório<br>
-            <span class="gradient-text">Simule o futuro agora</span>
+            {{ $t('home.heroTitle1') }}<br>
+            <span class="gradient-text">{{ $t('home.heroTitle2') }}</span>
           </h1>
-
+          
           <div class="hero-desc">
             <p>
-              Mesmo com apenas um trecho de texto, o <span class="highlight-bold">CheckSimulator</span> pode, a partir dos dados iniciais contidos nele, gerar automaticamente um mundo paralelo composto por até <span class="highlight-orange">milhões de Agents</span>. Injete variáveis com visão onisciente e encontre <span class="highlight-code">"ótimos locais"</span> em ambientes dinâmicos através de interações complexas em grupo.
+              <i18n-t keypath="home.heroDesc" tag="span">
+                <template #brand><span class="highlight-bold">{{ $t('home.heroDescBrand') }}</span></template>
+                <template #agentScale><span class="highlight-orange">{{ $t('home.heroDescAgentScale') }}</span></template>
+                <template #optimalSolution><span class="highlight-code">{{ $t('home.heroDescOptimalSolution') }}</span></template>
+              </i18n-t>
             </p>
             <p class="slogan-text">
-              Deixe o futuro se desenrolar entre Agents, deixe as decisões vencerem após cem batalhas<span class="blinking-cursor">_</span>
+              {{ $t('home.slogan') }}<span class="blinking-cursor">_</span>
             </p>
           </div>
-
+           
           <div class="decoration-square"></div>
         </div>
-
+        
         <div class="hero-right">
-          <!-- Area do Logo -->
+          <!-- Logo 区域 -->
           <div class="logo-container">
             <img src="../assets/logo/MiroFish_logo_left.jpeg" alt="CheckSimulator Logo" class="hero-logo" />
           </div>
-
+          
           <button class="scroll-down-btn" @click="scrollToBottom">
             ↓
           </button>
         </div>
       </section>
 
-      <!-- Parte inferior: Layout em duas colunas -->
+      <!-- 下半部分：双栏布局 -->
       <section class="dashboard-section">
-        <!-- Coluna esquerda: Status e etapas -->
+        <!-- 左栏：状态与步骤 -->
         <div class="left-panel">
           <div class="panel-header">
-            <span class="status-dot">■</span> Status do Sistema
+            <span class="status-dot">■</span> {{ $t('home.systemStatus') }}
           </div>
-
-          <h2 class="section-title">Pronto</h2>
+          
+          <h2 class="section-title">{{ $t('home.systemReady') }}</h2>
           <p class="section-desc">
-            Motor de previsão em espera. Envie dados não estruturados para inicializar a sequência de simulação.
+            {{ $t('home.systemReadyDesc') }}
           </p>
-
-          <!-- Cartoes de metricas -->
+          
+          <!-- 数据指标卡片 -->
           <div class="metrics-row">
             <div class="metric-card">
-              <div class="metric-value">Baixo Custo</div>
-              <div class="metric-label">Simulação média: US$ 5/vez</div>
+              <div class="metric-value">{{ $t('home.metricLowCost') }}</div>
+              <div class="metric-label">{{ $t('home.metricLowCostDesc') }}</div>
             </div>
             <div class="metric-card">
-              <div class="metric-value">Alta Disponibilidade</div>
-              <div class="metric-label">Até milhões de Agents simulados</div>
+              <div class="metric-value">{{ $t('home.metricHighAvail') }}</div>
+              <div class="metric-label">{{ $t('home.metricHighAvailDesc') }}</div>
             </div>
           </div>
 
-          <!-- Introducao das etapas de simulacao -->
+          <!-- 项目模拟步骤介绍 (新增区域) -->
           <div class="steps-container">
             <div class="steps-header">
-               <span class="diamond-icon">◇</span> Fluxo de Trabalho
+               <span class="diamond-icon">◇</span> {{ $t('home.workflowSequence') }}
             </div>
             <div class="workflow-list">
               <div class="workflow-item">
                 <span class="step-num">01</span>
                 <div class="step-info">
-                  <div class="step-title">Construção do Grafo</div>
-                  <div class="step-desc">Extração de dados iniciais & injeção de memória individual e coletiva & construção GraphRAG</div>
+                  <div class="step-title">{{ $t('home.step01Title') }}</div>
+                  <div class="step-desc">{{ $t('home.step01Desc') }}</div>
                 </div>
               </div>
               <div class="workflow-item">
                 <span class="step-num">02</span>
                 <div class="step-info">
-                  <div class="step-title">Configuração do Ambiente</div>
-                  <div class="step-desc">Extração de relações entre entidades & geração de personas & injeção de parâmetros de simulação via Agent de configuração</div>
+                  <div class="step-title">{{ $t('home.step02Title') }}</div>
+                  <div class="step-desc">{{ $t('home.step02Desc') }}</div>
                 </div>
               </div>
               <div class="workflow-item">
                 <span class="step-num">03</span>
                 <div class="step-info">
-                  <div class="step-title">Iniciar Simulação</div>
-                  <div class="step-desc">Simulação paralela em duas plataformas & análise automática de requisitos de previsão & atualização dinâmica de memória temporal</div>
+                  <div class="step-title">{{ $t('home.step03Title') }}</div>
+                  <div class="step-desc">{{ $t('home.step03Desc') }}</div>
                 </div>
               </div>
               <div class="workflow-item">
                 <span class="step-num">04</span>
                 <div class="step-info">
-                  <div class="step-title">Geração de Relatório</div>
-                  <div class="step-desc">O ReportAgent possui um rico conjunto de ferramentas para interação profunda com o ambiente pós-simulação</div>
+                  <div class="step-title">{{ $t('home.step04Title') }}</div>
+                  <div class="step-desc">{{ $t('home.step04Desc') }}</div>
                 </div>
               </div>
               <div class="workflow-item">
                 <span class="step-num">05</span>
                 <div class="step-info">
-                  <div class="step-title">Interação Profunda</div>
-                  <div class="step-desc">Converse com qualquer indivíduo do mundo simulado & converse com o ReportAgent</div>
+                  <div class="step-title">{{ $t('home.step05Title') }}</div>
+                  <div class="step-desc">{{ $t('home.step05Desc') }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Coluna direita: Console interativo -->
+        <!-- 右栏：交互控制台 -->
         <div class="right-panel">
           <div class="console-box">
-            <!-- Area de upload -->
+            <!-- 上传区域 -->
             <div class="console-section">
               <div class="console-header">
-                <span class="console-label">01 / Dados Iniciais</span>
-                <span class="console-meta">Formatos suportados: PDF, MD, TXT</span>
+                <span class="console-label">{{ $t('home.realitySeed') }}</span>
+                <span class="console-meta">{{ $t('home.supportedFormats') }}</span>
               </div>
-
-              <div
+              
+              <div 
                 class="upload-zone"
                 :class="{ 'drag-over': isDragOver, 'has-files': files.length > 0 }"
                 @dragover.prevent="handleDragOver"
@@ -145,13 +150,13 @@
                   style="display: none"
                   :disabled="loading"
                 />
-
+                
                 <div v-if="files.length === 0" class="upload-placeholder">
                   <div class="upload-icon">↑</div>
-                  <div class="upload-title">Arraste arquivos para enviar</div>
-                  <div class="upload-hint">ou clique para navegar no sistema de arquivos</div>
+                  <div class="upload-title">{{ $t('home.dragToUpload') }}</div>
+                  <div class="upload-hint">{{ $t('home.orBrowse') }}</div>
                 </div>
-
+                
                 <div v-else class="file-list">
                   <div v-for="(file, index) in files" :key="index" class="file-item">
                     <span class="file-icon">📄</span>
@@ -162,37 +167,37 @@
               </div>
             </div>
 
-            <!-- Divisor -->
+            <!-- 分割线 -->
             <div class="console-divider">
-              <span>Parâmetros de entrada</span>
+              <span>{{ $t('home.inputParams') }}</span>
             </div>
 
-            <!-- Area de entrada -->
+            <!-- 输入区域 -->
             <div class="console-section">
               <div class="console-header">
-                <span class="console-label">>_ 02 / Prompt de Simulação</span>
+                <span class="console-label">{{ $t('home.simulationPrompt') }}</span>
               </div>
               <div class="input-wrapper">
                 <textarea
                   v-model="formData.simulationRequirement"
                   class="code-input"
-                  placeholder="// Descreva em linguagem natural o que deseja simular ou prever (ex.: Se a universidade publicar um comunicado revogando a punição do aluno X, qual será a tendência da opinião pública?)"
+                  :placeholder="$t('home.promptPlaceholder')"
                   rows="6"
                   :disabled="loading"
                 ></textarea>
-                <div class="model-badge">Motor: CheckSimulator-V1.0</div>
+                <div class="model-badge">{{ $t('home.engineBadge') }}</div>
               </div>
             </div>
 
-            <!-- Botao de iniciar -->
+            <!-- 启动按钮 -->
             <div class="console-section btn-section">
-              <button
+              <button 
                 class="start-engine-btn"
                 @click="startSimulation"
                 :disabled="!canSubmit || loading"
               >
-                <span v-if="!loading">Iniciar Motor</span>
-                <span v-else>Inicializando...</span>
+                <span v-if="!loading">{{ $t('home.startEngine') }}</span>
+                <span v-else>{{ $t('home.initializing') }}</span>
                 <span class="btn-arrow">→</span>
               </button>
             </div>
@@ -200,7 +205,7 @@
         </div>
       </section>
 
-      <!-- Banco de dados de projetos historicos -->
+      <!-- 历史项目数据库 -->
       <HistoryDatabase />
     </div>
   </div>
@@ -210,44 +215,45 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import HistoryDatabase from '../components/HistoryDatabase.vue'
+import LanguageSwitcher from '../components/LanguageSwitcher.vue'
 
 const router = useRouter()
 
-// Dados do formulario
+// 表单数据
 const formData = ref({
   simulationRequirement: ''
 })
 
-// Lista de arquivos
+// 文件列表
 const files = ref([])
 
-// Estado
+// 状态
 const loading = ref(false)
 const error = ref('')
 const isDragOver = ref(false)
 
-// Referencia ao input de arquivo
+// 文件输入引用
 const fileInput = ref(null)
 
-// Propriedade computada: pode enviar?
+// 计算属性:是否可以提交
 const canSubmit = computed(() => {
   return formData.value.simulationRequirement.trim() !== '' && files.value.length > 0
 })
 
-// Disparar selecao de arquivo
+// 触发文件选择
 const triggerFileInput = () => {
   if (!loading.value) {
     fileInput.value?.click()
   }
 }
 
-// Tratar selecao de arquivo
+// 处理文件选择
 const handleFileSelect = (event) => {
   const selectedFiles = Array.from(event.target.files)
   addFiles(selectedFiles)
 }
 
-// Tratar eventos de arrastar
+// 处理拖拽相关
 const handleDragOver = (e) => {
   if (!loading.value) {
     isDragOver.value = true
@@ -261,12 +267,12 @@ const handleDragLeave = (e) => {
 const handleDrop = (e) => {
   isDragOver.value = false
   if (loading.value) return
-
+  
   const droppedFiles = Array.from(e.dataTransfer.files)
   addFiles(droppedFiles)
 }
 
-// Adicionar arquivos
+// 添加文件
 const addFiles = (newFiles) => {
   const validFiles = newFiles.filter(file => {
     const ext = file.name.split('.').pop().toLowerCase()
@@ -275,12 +281,12 @@ const addFiles = (newFiles) => {
   files.value.push(...validFiles)
 }
 
-// Remover arquivo
+// 移除文件
 const removeFile = (index) => {
   files.value.splice(index, 1)
 }
 
-// Rolar para o final
+// 滚动到底部
 const scrollToBottom = () => {
   window.scrollTo({
     top: document.body.scrollHeight,
@@ -288,15 +294,15 @@ const scrollToBottom = () => {
   })
 }
 
-// Iniciar simulacao - redireciona imediatamente, chamada API ocorre na pagina Process
+// 开始模拟 - 立即跳转，API调用在Process页面进行
 const startSimulation = () => {
   if (!canSubmit.value || loading.value) return
-
-  // Armazenar dados pendentes de upload
+  
+  // 存储待上传的数据
   import('../store/pendingUpload.js').then(({ setPendingUpload }) => {
     setPendingUpload(files.value, formData.value.simulationRequirement)
-
-    // Redirecionar imediatamente para a pagina Process (identificador especial para novo projeto)
+    
+    // 立即跳转到Process页面（使用特殊标识表示新建项目）
     router.push({
       name: 'Process',
       params: { projectId: 'new' }
@@ -306,7 +312,7 @@ const startSimulation = () => {
 </script>
 
 <style scoped>
-/* Variaveis globais e reset */
+/* 全局变量与重置 */
 :root {
   --black: #000000;
   --white: #FFFFFF;
@@ -314,9 +320,9 @@ const startSimulation = () => {
   --gray-light: #F5F5F5;
   --gray-text: #666666;
   --border: #E5E5E5;
-  /*
-    Usa Space Grotesk como fonte principal para titulos, JetBrains Mono para codigo/labels
-    Certifique-se de importar essas Google Fonts no index.html
+  /* 
+    使用 Space Grotesk 作为主要标题字体，JetBrains Mono 作为代码/标签字体
+    确保已在 index.html 引入这些 Google Fonts 
   */
   --font-mono: 'JetBrains Mono', monospace;
   --font-sans: 'Space Grotesk', 'Noto Sans SC', system-ui, sans-serif;
@@ -330,7 +336,7 @@ const startSimulation = () => {
   color: var(--black);
 }
 
-/* Navegacao superior */
+/* 顶部导航 */
 .navbar {
   height: 60px;
   background: var(--black);
@@ -351,6 +357,7 @@ const startSimulation = () => {
 .nav-links {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
 .github-link {
@@ -373,14 +380,14 @@ const startSimulation = () => {
   font-family: sans-serif;
 }
 
-/* Area de conteudo principal */
+/* 主要内容区 */
 .main-content {
   max-width: 1400px;
   margin: 0 auto;
   padding: 60px 40px;
 }
 
-/* Area Hero */
+/* Hero 区域 */
 .hero-section {
   display: flex;
   justify-content: space-between;
@@ -511,7 +518,7 @@ const startSimulation = () => {
 }
 
 .hero-logo {
-  max-width: 500px; /* Ajustar tamanho do logo */
+  max-width: 500px; /* 调整logo大小 */
   width: 100%;
 }
 
@@ -533,7 +540,7 @@ const startSimulation = () => {
   border-color: var(--orange);
 }
 
-/* Layout de duas colunas do Dashboard */
+/* Dashboard 双栏布局 */
 .dashboard-section {
   display: flex;
   gap: 60px;
@@ -548,7 +555,7 @@ const startSimulation = () => {
   flex-direction: column;
 }
 
-/* Painel esquerdo */
+/* 左侧面板 */
 .left-panel {
   flex: 0.8;
 }
@@ -604,7 +611,7 @@ const startSimulation = () => {
   color: #999;
 }
 
-/* Introducao das etapas de simulacao */
+/* 项目模拟步骤介绍 */
 .steps-container {
   border: 1px solid var(--border);
   padding: 30px;
@@ -660,14 +667,14 @@ const startSimulation = () => {
   color: var(--gray-text);
 }
 
-/* Console interativo a direita */
+/* 右侧交互控制台 */
 .right-panel {
   flex: 1.2;
 }
 
 .console-box {
-  border: 1px solid #CCC; /* Borda externa solida */
-  padding: 8px; /* Padding interno para efeito de borda dupla */
+  border: 1px solid #CCC; /* 外部实线 */
+  padding: 8px; /* 内边距形成双重边框感 */
 }
 
 .console-section {
@@ -835,7 +842,7 @@ const startSimulation = () => {
   overflow: hidden;
 }
 
-/* Estado clicavel (nao desabilitado) */
+/* 可点击状态（非禁用） */
 .start-engine-btn:not(:disabled) {
   background: var(--black);
   border: 1px solid var(--black);
@@ -860,31 +867,87 @@ const startSimulation = () => {
   border: 1px solid #E5E5E5;
 }
 
-/* Animacao de pulso sutil na borda */
+/* 引导动画：微妙的边框脉冲 */
 @keyframes pulse-border {
   0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
   70% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
   100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
 }
 
-/* Adaptacao responsiva */
+/* 响应式适配 */
 @media (max-width: 1024px) {
   .dashboard-section {
     flex-direction: column;
   }
-
+  
   .hero-section {
     flex-direction: column;
   }
-
+  
   .hero-left {
     padding-right: 0;
     margin-bottom: 40px;
   }
-
+  
   .hero-logo {
     max-width: 200px;
     margin-bottom: 20px;
   }
+}
+</style>
+
+<style>
+/* English locale adjustments (unscoped to target html[lang]) */
+html[lang="en"] .main-title {
+  font-size: 3.5rem;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -1px;
+}
+
+html[lang="en"] .hero-desc {
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0;
+}
+
+html[lang="en"] .slogan-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0;
+}
+
+html[lang="en"] .tag-row {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html[lang="en"] .navbar .nav-links {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Left pane: system status + workflow */
+html[lang="en"] .status-section {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html[lang="en"] .status-section .status-ready {
+  font-size: 1.6rem;
+}
+
+html[lang="en"] .status-section .metric-value {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.4rem;
+}
+
+html[lang="en"] .workflow-list .step-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html[lang="en"] .workflow-list .step-desc {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.72rem !important;
+  line-height: 1.4 !important;
+}
+
+html[lang="en"] .workflow-list {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 </style>
