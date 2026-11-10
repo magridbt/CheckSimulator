@@ -127,3 +127,9 @@ LLM_BOOST_MODEL_NAME=
 - Marca visivel trocada para CheckSimulator (titulo, cabecalho, textos). Identificadores internos `mirofish_*` (grafos, logs, metadados Zep) foram mantidos de proposito para compatibilidade.
 - Versao de marco preservada no branch `versao-marco-2026`.
 - Para atualizar de novo: `git fetch upstream && git merge upstream/main`, conferindo `locales/pt.json` contra novas chaves de `locales/en.json`.
+
+## Uso pelo chat + medidor de gasto (10/11/2026)
+
+- `ferramentas/cs.py`: roda todas as etapas pela API, sem a tela (`cs.py -h`). Skill: `/checksimulator` (~/.claude/skills/checksimulator).
+- `ferramentas/medidor.py` (127.0.0.1:5099): todo pedido à OpenAI passa por ele (`LLM_BASE_URL=http://127.0.0.1:5099/v1`, endereço real em `MEDIDOR_UPSTREAM`). Conta tokens/US$ em `registros/gastos.jsonl` e BLOQUEIA ao atingir o teto de `registros/teto.json`. Teto padrão = 0 (nada passa). Modelo sem preço cadastrado = bloqueado.
+- `registros/` fica fora do Git (gastos, logs, relatórios, backup do .env).
