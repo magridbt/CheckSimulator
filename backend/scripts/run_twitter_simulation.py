@@ -633,7 +633,7 @@ class TwitterSimulationRunner:
         for round_num in range(total_rounds):
             # 计算当前模拟时间
             simulated_minutes = round_num * minutes_per_round
-            simulated_hour = (simulated_minutes // 60) % 24
+            simulated_hour = ((time_config.get("start_hour", 0) or 0) * 60 + simulated_minutes) // 60 % 24  # CheckSimulator: horário de início configurável
             simulated_day = simulated_minutes // (60 * 24) + 1
             
             # 获取本轮激活的Agent

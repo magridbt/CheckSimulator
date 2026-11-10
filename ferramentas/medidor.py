@@ -134,6 +134,8 @@ class Medidor(BaseHTTPRequestHandler):
                     req.pop("top_p", None)
                     if "max_tokens" in req:
                         req["max_completion_tokens"] = req.pop("max_tokens")
+                    if req.get("tools") and "/chat/completions" in self.path:
+                        req["reasoning_effort"] = "none"  # exigido pela OpenAI para tools no chat/completions
                     corpo = json.dumps(req).encode()
                 if stream:
                     req.setdefault("stream_options", {})["include_usage"] = True

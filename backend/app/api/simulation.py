@@ -293,12 +293,18 @@ def _check_simulation_prepared(simulation_id: str) -> tuple:
         return False, {"reason": "模拟目录不存在"}
     
     # 必要文件列表（不包括脚本，脚本位于 backend/scripts/）
-    required_files = [
-        "state.json",
-        "simulation_config.json",
-        "reddit_profiles.json",
-        "twitter_profiles.csv"
-    ]
+    required_files = ["state.json", "simulation_config.json"]
+    # CheckSimulator: exigir só os perfis das plataformas habilitadas
+    try:
+        import json as _json
+        with open(os.path.join(simulation_dir, "state.json"), 'r', encoding='utf-8') as _f:
+            _st = _json.load(_f)
+    except Exception:
+        _st = {}
+    if _st.get("enable_reddit", True):
+        required_files.append("reddit_profiles.json")
+    if _st.get("enable_twitter", True):
+        required_files.append("twitter_profiles.csv")
     
     # 检查文件是否存在
     existing_files = []

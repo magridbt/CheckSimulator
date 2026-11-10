@@ -6,6 +6,7 @@ Etapas (cada uma que gasta créditos passa pelo medidor com teto):
   teto <usd>                      define o teto aprovado (zera a contagem a partir de agora)
   gasto                           mostra gasto x teto e detalhe por etapa
   novo --nome N --pergunta P ARQ...   envia material, gera ontologia e constrói o grafo   [GASTA]
+  reconstruir --projeto ID        refaz o grafo de um projeto que falhou                   [GASTA]
   preparar --projeto ID [--plataforma reddit|twitter|ambas]   cria agentes + configuração   [GASTA]
   perfis --sim ID                 lista os agentes criados
   rodar --sim ID --rodadas N [--plataforma reddit|twitter|parallel]                        [GASTA]
@@ -180,7 +181,15 @@ def cmd_novo(a):
     ont = d.get("ontology", {})
     print(f"Projeto {pid}: {len(ont.get('entity_types', []))} tipos de entidade, {len(ont.get('edge_types', []))} tipos de relação")
     print("Entidades:", ", ".join(e.get("name", "") for e in ont.get("entity_types", [])))
-    t = chamar("POST", "/api/graph/build", {"project_id": pid})
+    construir(pid)
+
+
+def cmd_reconstruir(a):
+    construir(a.projeto, force=True)
+
+
+def construir(pid, force=False):
+    t = chamar("POST", "/api/graph/build", {"project_id": pid, "force": force})
     esperar(lambda: chamar("GET", f"/api/graph/task/{t['task_id']}"), {"completed"}, rotulo="grafo")
     proj = chamar("GET", f"/api/graph/project/{pid}")
     print(json.dumps({"project_id": pid, "graph_id": proj.get("graph_id")}, ensure_ascii=False))
@@ -213,8 +222,29 @@ def cmd_perfis(a):
 
 
 def cmd_rodar(a):
-    chamar("POST", "/api/simulation/start", {"simulation_id": a.sim, "platform": a.plataforma, "max_rounds": a.rodadas})
-    esperar(lambda: chamar("GET", f"/api/simulation/{a.sim}/run-status"), {"completed", "stopped"}, intervalo=15, rotulo="rodada")
+    # Horário simulado de início (0–23). Começar à meia-noite deixa rodadas curtas sem ninguém ativo.
+    arq = RAIZ / "backend" / "uploads" / "simulations" / a.sim / "simulation_config.json"
+    cfg = json.loads(arq.read_text(encoding="utf-8"))
+    cfg.setdefault("time_config", {})["start_hour"] = a.inicio
+    arq.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Início simulado às {a.inicio}h, {a.rodadas} rodadas.")
+    chamar("POST", "/api/simulation/start", {"simulation_id": a.sim, "platform": a.plataforma,
+                                             "max_rounds": a.rodadas, "force": a.refazer})
+    inicio, ultimo = time.time(), None
+    while True:
+        d = chamar("GET", f"/api/simulation/{a.sim}/run-status")
+        linha = f"rodada {d.get('current_round')}/{d.get('total_rounds')} {d.get('runner_status')} | {gasto_txt()}"
+        if linha != ultimo:
+            print(linha, flush=True); ultimo = linha
+        if d.get("runner_status") == "failed":
+            sys.exit(f"FALHOU: {d.get('error')}")
+        terminou = d.get("runner_status") in ("completed", "stopped") or d.get("reddit_completed") or d.get("twitter_completed")
+        if terminou or (d.get("total_rounds") and (d.get("current_round") or 0) >= d["total_rounds"]):
+            break
+        if time.time() - inicio > a.limite_min * 60:
+            print(f"AVISO: passou de {a.limite_min} min; a simulação segue rodando. Conferir com 'status' e 'posts'.")
+            break
+        time.sleep(15)
     print("Simulação concluída.", gasto_txt())
 
 
@@ -269,11 +299,15 @@ def main():
     s = sub.add_parser("teto"); s.add_argument("usd", type=float); s.add_argument("--motivo")
     s = sub.add_parser("novo"); s.add_argument("--nome", required=True); s.add_argument("--pergunta", required=True)
     s.add_argument("--contexto"); s.add_argument("arquivos", nargs="+")
+    s = sub.add_parser("reconstruir"); s.add_argument("--projeto", required=True)
     s = sub.add_parser("preparar"); s.add_argument("--projeto", required=True)
     s.add_argument("--plataforma", default="reddit", choices=["reddit", "twitter", "ambas"])
     s = sub.add_parser("perfis"); s.add_argument("--sim", required=True); s.add_argument("--plataforma")
     s = sub.add_parser("rodar"); s.add_argument("--sim", required=True); s.add_argument("--rodadas", type=int, required=True)
     s.add_argument("--plataforma", default="reddit", choices=["reddit", "twitter", "parallel"])
+    s.add_argument("--inicio", type=int, default=19, help="hora simulada de início (padrão 19h, pico)")
+    s.add_argument("--refazer", action="store_true", help="para e recomeça uma simulação já iniciada")
+    s.add_argument("--limite-min", type=int, default=45, help="para de acompanhar após N minutos")
     s = sub.add_parser("posts"); s.add_argument("--sim", required=True); s.add_argument("--limite", type=int, default=50)
     s.add_argument("--plataforma")
     s = sub.add_parser("relatorio"); s.add_argument("--sim", required=True); s.add_argument("--saida")
@@ -284,7 +318,7 @@ def main():
     s = sub.add_parser("chat"); s.add_argument("--sim", required=True); s.add_argument("--msg", required=True)
     s = sub.add_parser("fechar"); s.add_argument("--sim", required=True)
     a = ap.parse_args()
-    gasta = a.cmd in ("novo", "preparar", "rodar", "relatorio", "entrevistar", "entrevistar-todos", "chat")
+    gasta = a.cmd in ("novo", "reconstruir", "preparar", "rodar", "relatorio", "entrevistar", "entrevistar-todos", "chat")
     if gasta and "DESLIGADO" in gasto_txt():
         sys.exit("ERRO: medidor desligado. Rode 'cs.py ligar' antes de qualquer etapa que gasta créditos.")
     globals()["cmd_" + a.cmd.replace("-", "_")](a)
